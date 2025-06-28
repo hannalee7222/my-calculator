@@ -22,54 +22,50 @@ function calculate (num1, operator, num2){
   }
 }
 
-for (let i = 0; i < buttons.length; i++){             
-  buttons[i].addEventListener("click", function(e){  
-    console.log(e.target.value)                    
-     let value = e.target.value                         
-    if (value === "."){                                
-      if (!display.textContent.includes(".")){       
-        display.textContent += "."                     
-      }
-    }
+for (let i = 0; i < buttons.length; i++){
+  buttons[i].addEventListener("click", function(e){
+    const value = e.currentTarget.value;
     if (value === "AC"){
-      display.textContent = "0"
+      display.textContent = "0";
       firstOperand = null;
       operator = "";
       secondOperand = true;
-    }                                               
-  })                                                
-}
-
-for (let i = 0; i < buttons.length; i++){
-  buttons[i].addEventListener("click", function(e){
-    const value = e.target.value;
-    if (e.target.classList.contains("operator")){
+      return;
+    }
+    if (value === "."){
+      if (!display.textContent.includes(".")){
+        display.textContent += ".";
+      }
+      return;
+    }
+    if (e.currentTarget.classList.contains("operator")){
       if (firstOperand === null){
-        firstOperand = Number(display.textContent)
+        firstOperand = Number(display.textContent);
       }
       operator = value;
       secondOperand = true;
-      console.log("First Operand:", firstOperand);
-      console.log("Operator:", operator);
+      return;
     }
-    if (e.target.classList.contains("number")){
+    if (e.currentTarget.classList.contains("number")){
       if (display.textContent === "0" || secondOperand){
         display.textContent = value;
         secondOperand = false;
-      }else {
+      } else {
         display.textContent += value;
       }
+      return;
     }
-    if (e.target.classList.contains("equal")){
+    if (e.currentTarget.classList.contains("equal")){
       if (firstOperand !== null && operator !== ""){
-      const secondValue = Number(display.textContent)
-      const result = calculate(firstOperand, operator, secondValue)
-      display.textContent = result;
-      console.log("Result:", result);
-      firstOperand = result;
-      operator = "";
-      secondOperand = true;
-    }                                               
-  }                                                
+        const secondValue = Number(display.textContent);
+        const result = calculate(firstOperand, operator, secondValue);
+        display.textContent = result;
+        firstOperand = result;
+        operator = "";
+        secondOperand = true;
+      }
+      return;
+    }
   })
- }
+}
+
